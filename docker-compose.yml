@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - db:/data/db
+  app:
+    depends_on:
+      - mongodb
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=production
+      - SENDOR_EMAIL=navjeevan1111@gmail.com
+      - SENDOR_PASSWORD=hellokitty@123
+      - MONGODB_URL_PRODUCTION=mongodb://mongodb:27017/healthdb
+
+volumes:
+  db:
